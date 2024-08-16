@@ -1,5 +1,11 @@
 import axios from "axios";
-import { createBrowserRouter, RouterProvider, Outlet } from "react-router-dom";
+import {
+  createBrowserRouter,
+  RouterProvider,
+  Outlet,
+  useRouteError,
+  Navigate,
+} from "react-router-dom";
 
 import Header from "./components/Header";
 import Footer from "./components/Footer";
@@ -29,6 +35,7 @@ const router = createBrowserRouter([
         <Footer />
       </>
     ),
+    errorElement: <ErrorBooundary />,
     children: [
       { path: "/", element: <HomePage /> },
       { path: "/signup", element: <SignupPage /> },
@@ -37,21 +44,28 @@ const router = createBrowserRouter([
         path: "/products",
         element: <ProductsIndexPage />,
         loader: () =>
-          axios
-            .get("http://localhost:3000/products.json")
-            .then((response) => response.data),
+          axios.get("/products.json").then((response) => response.data),
       },
       {
         path: "/products/:id",
         element: <ProductsShowPage />,
         loader: ({ params }) =>
           axios
-            .get(`http://localhost:3000/products/${params.id}.json`)
+            .get(`/products/${params.id}.json`)
             .then((response) => response.data),
       },
     ],
   },
 ]);
+
+function ErrorBooundary() {
+  let error = useRouteError();
+  console.error("The ERROR IS", error, error.response.status);
+  if (error?.response?.status === 401) {
+    return <Navigate to="/login" replace={true} />;
+  }
+  return <div>Dang!</div>;
+}
 
 function App() {
   return <RouterProvider router={router} />;
