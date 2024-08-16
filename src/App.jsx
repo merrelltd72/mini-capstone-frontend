@@ -11,6 +11,11 @@ import { ProductsShowPage } from "./pages/ProductsShowPage";
 import { Container } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 
+axios.defaults.baseURL =
+  process.env.NODE_ENV === "development"
+    ? "http://localhost:3000"
+    : "https://mini-capstone-api-mhoi.onrender.com";
+
 const router = createBrowserRouter([
   {
     element: (
