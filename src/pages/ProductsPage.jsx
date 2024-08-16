@@ -11,14 +11,14 @@ const ProductsPage = () => {
   const [currentProduct, setCurrentProduct] = useState({});
 
   const handleIndex = () => {
-    axios.get("http://localhost:3000/products.json").then((response) => {
+    axios.get("/products.json").then((response) => {
       setProducts(response.data);
     });
   };
 
   const handleCreate = (params, successCallback, failureCallback) => {
     axios
-      .post("http://localhost:3000/products.json", params)
+      .post("/products.json", params)
       .then((response) => {
         setProducts([...products, response.data]);
         successCallback();
@@ -36,28 +36,26 @@ const ProductsPage = () => {
   };
 
   const handleDestroy = (id) => {
-    axios.delete(`http://localhost:3000/products/${id}.json`).then(() => {
+    axios.delete(`/products/${id}.json`).then(() => {
       setProducts(products.filter((product) => product.id !== id));
       setIsShowVisible(false);
     });
   };
 
   const handleUpdate = (id, params, successCallback) => {
-    axios
-      .patch(`http://localhost:3000/products/${id}.json`, params)
-      .then((response) => {
-        setProducts(
-          products.map((product) => {
-            if (product.id === id) {
-              return response.data;
-            } else {
-              return product;
-            }
-          })
-        );
-        successCallback();
-        setIsShowVisible(false);
-      });
+    axios.patch(`/products/${id}.json`, params).then((response) => {
+      setProducts(
+        products.map((product) => {
+          if (product.id === id) {
+            return response.data;
+          } else {
+            return product;
+          }
+        })
+      );
+      successCallback();
+      setIsShowVisible(false);
+    });
   };
 
   useEffect(handleIndex, []);
