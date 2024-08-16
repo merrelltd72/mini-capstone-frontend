@@ -1,7 +1,7 @@
-import { useLoaderData, useNavigate } from "react-router-dom";
+import { useNavigate, useLoaderData } from "react-router-dom";
 import { ProductsIndex } from "../components/ProductsIndex";
 
-const ProductsIndexPage = () => {
+export function ProductsIndexPage() {
   const navigate = useNavigate();
   const products = useLoaderData();
 
@@ -14,6 +14,4 @@ const ProductsIndexPage = () => {
       <ProductsIndex products={products} onShow={handleShow} />
     </div>
   );
-};
-
-export default ProductsIndexPage;
+}

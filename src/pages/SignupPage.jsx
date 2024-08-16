@@ -3,6 +3,8 @@ import { useState } from "react";
 
 export function SignupPage() {
   const [errors, setErrors] = useState([]);
+  const [name, setName] = useState("");
+  const [status, setStatus] = useState(null);
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -18,6 +20,7 @@ export function SignupPage() {
       .catch((error) => {
         console.log(error.response.data.errors);
         setErrors(error.response.data.errors);
+        setStatus(error.response.status);
       });
   };
 
@@ -29,9 +32,16 @@ export function SignupPage() {
           <li key={error}>{error}</li>
         ))}
       </ul>
+      {status ? <img src={`https://http.cat/${status}`} /> : null}
       <form onSubmit={handleSubmit}>
         <div>
-          Name: <input name="name" type="text" />
+          Name:{" "}
+          <input
+            name="name"
+            type="text"
+            value={name}
+            onChange={(event) => setName(event.target.value)}
+          />
         </div>
         <div>
           Email: <input name="email" type="email" />

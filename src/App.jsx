@@ -7,6 +7,7 @@ import HomePage from "./pages/HomePage";
 import { SignupPage } from "./pages/SignupPage";
 import { LoginPage } from "./pages/LoginPage";
 import { ProductsIndexPage } from "./pages/ProductsIndexPage";
+import { ProductsShowPage } from "./pages/ProductsShowPage";
 import { Container } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 
@@ -33,6 +34,14 @@ const router = createBrowserRouter([
         loader: () =>
           axios
             .get("http://localhost:3000/products.json")
+            .then((response) => response.data),
+      },
+      {
+        path: "/products/:id",
+        element: <ProductsShowPage />,
+        loader: ({ params }) =>
+          axios
+            .get(`http://localhost:3000/products/${params.id}.json`)
             .then((response) => response.data),
       },
     ],
