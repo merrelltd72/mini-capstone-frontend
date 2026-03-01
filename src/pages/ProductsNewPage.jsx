@@ -1,5 +1,6 @@
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { Form } from "react-bootstrap";
 import ProductsNew from "./ProductsNew";
 
 const ProductsNewPage = () => {
@@ -16,7 +17,9 @@ const ProductsNewPage = () => {
 
   return (
     <div>
-      <ProductsNew onCreate={handleCreate} />
+      <Form>
+        <ProductsNew onCreate={handleCreate} />
+      </Form>
     </div>
   );
 };
